@@ -9,8 +9,8 @@ Run in simulator to retreive the access token. Copy and keep this access token. 
 Unistall app.
 
 # Publish
-Publish the app for your self
-Install the app
+## Publish the app for your self
+## Install the app
 
 # Pair in tibber mobile app
 Login to Tibber mobile application and pair with smartthings
