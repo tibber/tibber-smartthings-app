@@ -13,5 +13,9 @@ Unistall app.
 * Install the app
 
 # Pair in tibber mobile app
-Login to Tibber mobile application and pair with smartthings
-Enter the access token
+* Login to Tibber mobile application and pair with smartthings
+* Enter the access token
+
+<img src="Images/new-smartthings-app-1.png" border="10" />
+<img src="Images/new-smartthings-app-1.png" border="10" />
+<img src="Images/token.png" border="10" />
