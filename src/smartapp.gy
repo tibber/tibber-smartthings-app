@@ -47,7 +47,7 @@ def listThermostats() {
         def rangeHigh = 100
         if(range!=null){
         	rangeLow = range[0]
-			rangeHigh = range[1]
+			    rangeHigh = range[1]
         }
       	resp << [
         id: it.id, 
