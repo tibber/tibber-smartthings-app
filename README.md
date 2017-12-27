@@ -1,5 +1,7 @@
-# tibber-smartthings-app
-Tibber smartthings app
+# Tibber SmartThings integration
+Tibber has a "double integration" with Samsung SmartThings:
+1. Tibber SmartApp - this is described below
+2. [Tibber DeviceHandler in SmartThings](https://github.com/tibbercom/tibber-smartthings-app/tree/master/src/Device%20handlers)  
 
 # How to install
 Create a new smartapp in smartthings developer portal and make sure to enable OAuth.
