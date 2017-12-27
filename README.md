@@ -1,7 +1,7 @@
-# Tibber Samsung SmartThings integration
+# Tibber - Samsung SmartThings thermostat integration
 Tibber has a "double integration" with Samsung SmartThings:
-1. Tibber SmartApp - this is described below
-2. [Tibber DeviceHandler in SmartThings](https://github.com/tibbercom/tibber-smartthings-app/tree/master/src/Device%20handlers)  
+1. Tibber SmartApp - this is described below. This integration connects thermostats in SmartThings to Tibber. The SmartThings thermostats will show up as "bubbles" in the Tibber app, and you can enable "smart heating" capabilities in Tibber.
+2. [Tibber DeviceHandler in SmartThings](https://github.com/tibbercom/tibber-smartthings-app/tree/master/src/Device%20handlers). This DeviceHandler will show your live energy prices as a device/sensor in SmartThings.
 
 # How to install
 Read an follow the steps below **very carefully**
