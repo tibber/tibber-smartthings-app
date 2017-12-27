@@ -13,11 +13,11 @@ Read an follow the steps below **very carefully**
 6. Unistall SmartApp from simulator.
 
 # Publish
-* Publish the app for your self
+* Publish the app for yourself
 * Install the app
 
-# Pair in tibber mobile app
-* Login to Tibber mobile application and pair with smartthings
+# Pair in Tibber app
+* Login to Tibber mobile application and pair with SmartThings
 * Enter the API token
 
 # Images
