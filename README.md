@@ -9,7 +9,7 @@ Read an follow the steps below **very carefully**
 2. From this git repository, copy the contents of src/smartapp. 
 3. Open the SmartApp in SmartThings developer portal and paste contents to code section.
 4. **Install in simulator** (NB: this is the crucial part) to retreive the API tokn. 
-5. Copy and keep this API token and past it into the Tibber app -> Power-ups -> Samsung SmartThings -> Connect to
+5. Copy and keep this API token and past it into the Tibber app -> Power-ups -> Samsung SmartThings -> Connect
 6. Unistall SmartApp from simulator.
 
 # Publish
