@@ -1,8 +1,9 @@
-# tibber-device-handler
-Using tibber api to retreive price and use it in smart app
+# Tibber device handler for SmartThings
+Using Tibber api to retreive price and use it in smart app
 
 # How to install
-* Retreive your personal access token from https://developer.tibber.com/settings/accesstoken
+* Go to https://developer.tibber.com/ and log in with your existing Tibber user
+* Retreive your personal access token (do not use the demo token - that one belongs to Arya Stark)
 * Create the device handler from code using tibber-price-device-handler.gy. Insert the access token where it is marked in code.
 * Publish the handler.
 * Create new device and name it i.e Tibber price. Make sure to use the newly created handler as type.
