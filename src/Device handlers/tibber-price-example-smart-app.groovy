@@ -50,7 +50,7 @@ def priceHandler(evt) {
 	handlePriceUpdate(priceValue)
 }
 def handlePriceUpdate(price){
-    if(price > 0.5){ //do something when price is above some value
+    if(price > 50){ //do something when price is above some value
     	switch1.off()
     }else{
     	switch1.on()
