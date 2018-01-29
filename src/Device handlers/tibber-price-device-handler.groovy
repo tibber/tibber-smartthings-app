@@ -277,11 +277,11 @@ def PriceNextHours(List values){
         }
         if(hourNowUtc<0){
         	hourNowUtc = hourNowUtc+24 //wrap
-            dayNowUtc = dayNow+1
+            dayNowUtc = dayNowUtc-1
         }
         if(hourNowUtc>23){
         	hourNowUtc = hourNowUtc-24 //wrap
-            dayNowUtc = dayNow-1
+            dayNowUtc = dayNowUtc+1
         }
         if(hourNow == hourNowUtc && dayNow == dayNowUtc ){
         	priceNextHour = it.total
