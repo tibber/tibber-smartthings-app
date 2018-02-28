@@ -17,10 +17,12 @@
  *  Date: 2018-01-11
  *
  *  Revision notes: price is now given in currency/100. For NOK. the unit is now in Øre
+ *  Revision notes: presenting price as energymeter, user can get price through energy attribute
  */
 metadata {
 	definition (name: "Tibber price device handler", namespace: "Tibber", author: "tibberdev") {
 		capability "Sensor"
+		capability "Energy Meter"
 		attribute "price", "number"
 		attribute "priceNextHour", "number"
 		attribute "priceNextHourLabel", "string"
@@ -43,6 +45,7 @@ metadata {
                 attributeState "currency", label:'${currentValue}', defaultState: true
             }
         }
+        
         valueTile("priceNextHourLabelTile", "device.priceNextHourLabel", decoration: "flat", width: 4, height: 1) {
             state "priceNextHourLabel", label:'${currentValue}'
         }
@@ -72,7 +75,7 @@ metadata {
             backgroundColors:backgroundColors()
         }
         main (["valueTile"])
-        details(["valueTile", "priceNextHourLabelTile", "priceNextHourTile", "pricePlus2HourLabelTile", "pricePlus2HourTile","priceMaxDayLabelTile", "priceMaxDayTile","priceMinDayLabelTile", "priceMinDayTile"])
+        details(["valueTile", "PriceEnergyTile", "priceNextHourLabelTile", "priceNextHourTile", "pricePlus2HourLabelTile", "pricePlus2HourTile","priceMaxDayLabelTile", "priceMaxDayTile","priceMinDayLabelTile", "priceMinDayTile"])
 	}
 }
 
@@ -138,6 +141,7 @@ def getPrice() {
                 state.priceMinDay = priceMinDay
                 state.priceMinDayLabel = priceMinDayLabel
                 
+                sendEvent(name: "energy", value: price, unit: currency)
                 sendEvent(name: "price", value: state.price, unit: currency)
                 sendEvent(name: "priceNextHour", value: state.priceNextHour, unit: currency)
                 sendEvent(name: "pricePlus2Hour", value: state.pricePlus2Hour, unit: currency)
@@ -159,7 +163,8 @@ def getPrice() {
 def parse(String description) {
     log.debug "parse description: ${description}"
     def eventMap = [
-        createEvent(name: "price", value: state.price, unit: state.currency)
+        createEvent(name: "energy", value: state.price, unit: state.currency)
+        ,createEvent(name: "price", value: state.price, unit: state.currency)
         ,createEvent(name: "priceNextHour", value: state.priceNextHour, unit: state.currency)
         ,createEvent(name: "pricePlus2Hour", value: state.pricePlus2Hour, unit: state.currency)
         ,createEvent(name: "priceMaxDay", value: state.priceMaxDay, unit: state.currency)
@@ -288,7 +293,6 @@ def PriceNextHours(List values){
             priceNextNextHour = values[i+1].total   
             priceNowTimestamp = hourNowUtc
         }
-        log.debug("index:"+i+" hourNow: "+hourNow+" hourOffset:"+hourOffset+" timeZoneOperator:"+timeZoneOperator+" hourNowUtc:"+hourNowUtc+" total:"+total)
     	i++
 
     }
@@ -296,7 +300,6 @@ def PriceNextHours(List values){
     def priceNextTimestamp = 0
     if(priceNowTimestamp<23)
     	priceNextTimestamp = priceNowTimestamp + 1
-    
     return [priceNextHour, priceNextNextHour, fromToTimestamp(priceNowTimestamp), fromToTimestamp(priceNextTimestamp)]
 }
 def fromToTimestamp(def timestamp){
