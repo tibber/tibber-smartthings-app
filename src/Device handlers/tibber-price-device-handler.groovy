@@ -97,7 +97,7 @@ def updated() {
 }
 
 def getPrice() {
-	state.authToken = "YOUR_TIBBER_ACCESS_TOKEN" //https://developer.tibber.com/settings/accesstoken
+	state.authToken = "b8fa912fe9760bcd530673d3a4d038eaa6dbebb3097959cc1f6eef08774eaacb" //https://developer.tibber.com/settings/accesstoken
 	log.debug("getprice")
 	log.debug( state.authToken)
     def params = [
