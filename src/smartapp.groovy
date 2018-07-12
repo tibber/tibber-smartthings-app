@@ -21,7 +21,8 @@ definition(
     category: "Convenience",
     iconUrl: "https://store.tibber.com/no/wp-content/uploads/sites/8/2017/12/tibber_app_logo.png",
     iconX2Url: "https://store.tibber.com/no/wp-content/uploads/sites/8/2017/12/tibber_app_logo.png",
-    iconX3Url: "https://store.tibber.com/no/wp-content/uploads/sites/8/2017/12/tibber_app_logo.png")
+    iconX3Url: "https://store.tibber.com/no/wp-content/uploads/sites/8/2017/12/tibber_app_logo.png",
+    oauth:true)
 
 mappings {
   path("/thermostats") {
@@ -78,22 +79,61 @@ void updateThermostats() {
     }
 }
 
-
 preferences {
-  section ("Allow external service to control these things...") {
-    input "thermostats", "capability.thermostat", multiple: true, required: false
-  }
+    page(name: "createConfig")
+}
+
+def createConfig() {
+    if (!state.accessToken) {
+        createAccessToken()
+    }
+    dynamicPage(name: "createConfig", title: "Configuration", install:true, uninstall:true) {
+        section ("Allow external service to control these things...") {
+            href url:"${apiServerUrl("/api/smartapps/installations/${app.id}/config?access_token=${state.accessToken}")}", style:"embedded", required:false, title:"Access Token", description:"Tap, select, copy, then click \"Done\"."
+            input "thermostats", "capability.thermostat", multiple: true, required: false, title:"Which devices?", description:"Select the devices you want Tibber to have access to."
+        }
+    }
 }
 def installed() {
+	if (!state.accessToken) {
+        createAccessToken()
+    }
+    log.info "Access token is ${state.accessToken}"
 	log.debug "Installed with settings: ${settings}"
 	initialize()
 }
 
 def updated() {
+	if (!state.accessToken) {
+      createAccessToken()
+  }
+  log.info "Access token is ${state.accessToken}"
 	log.debug "Updated with settings: ${settings}"
 	unsubscribe()
 	initialize()
 }
 
 def initialize() {
+}
+
+def wrapHtml(body, title){
+	return  "<!DOCTYPE html><html><head><meta charset='utf-8' /><meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, shrink-to-fit=no' />" +
+          "<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css' integrity='sha256-KeWggbCyRNU5k8MgZ7Jf8akh/OtL7Qu/YloCBpayj40=' crossorigin='anonymous' />" +
+          "<title>$title</title>" +
+          "</head>" +
+          "<body>" +
+          "<div class='container'><div class='row'><div class='col'>" +
+          body +
+          "</div></div></body></html>"
+}
+
+def renderConfig() {
+    def body =  "<p class='lead mt-5 mb-4 text-center'>Copy this and paste it into the Tibber app</p>" +
+                "<p><pre class='access_token w100 text-center font-weight-bold'>${state.accessToken}</pre></p>"
+    def html = wrapHtml(body, "Tibber Access Token")
+    render contentType: "text/html", data: html
+}
+
+mappings {
+	path("/config") { action: [GET: "renderConfig"] }
 }
