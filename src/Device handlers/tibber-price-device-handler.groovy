@@ -77,6 +77,23 @@ metadata {
         main (["valueTile"])
         details(["valueTile", "PriceEnergyTile", "priceNextHourLabelTile", "priceNextHourTile", "pricePlus2HourLabelTile", "pricePlus2HourTile","priceMaxDayLabelTile", "priceMaxDayTile","priceMinDayLabelTile", "priceMinDayTile"])
 	}
+
+    preferences {
+        input (
+            type: "paragraph",
+            element: "paragraph",
+            title: "Tibber API key",
+            description: "You'll find the API key at https://developer.tibber.com/settings/accesstoken"
+        )
+        input (
+            name: "tibber_apikey",
+            type: "password",
+            title: "API Key",
+            description: "Enter the Tibber API key",
+            required: true,
+            displayDuringSetup: true
+        )
+    }
 }
 
 def initialize() {
@@ -97,67 +114,69 @@ def updated() {
 }
 
 def getPrice() {
-	state.authToken = "YOUR_TIBBER_ACCESS_TOKEN" //https://developer.tibber.com/settings/accesstoken
-	log.debug("getprice")
-	log.debug( state.authToken)
-    def params = [
-        uri: "https://api.tibber.com/v1-beta/gql",
-        headers: ["Content-Type": "application/json;charset=UTF-8" , "Authorization": "Bearer ${state.authToken}"],
-        body: graphQLApiQuery()
-	]
-    try {
-        httpPostJson(params) { resp ->
-            if(resp.status == 200){
-                def today = resp.data.data.viewer.homes[0].currentSubscription.priceInfo.today
-                def tomorrow = resp.data.data.viewer.homes[0].currentSubscription.priceInfo.tomorrow
+	log.debug("getPrice")
+    if(tibber_apikey == null){
+        log.error("API key is not set. Please set it in the settings.")
+    } else {
+        def params = [
+            uri: "https://api.tibber.com/v1-beta/gql",
+            headers: ["Content-Type": "application/json;charset=UTF-8" , "Authorization": "Bearer $tibber_apikey"],
+            body: graphQLApiQuery()
+        ]
+        try {
+            httpPostJson(params) { resp ->
+                if(resp.status == 200){
+                    def today = resp.data.data.viewer.homes[0].currentSubscription.priceInfo.today
+                    def tomorrow = resp.data.data.viewer.homes[0].currentSubscription.priceInfo.tomorrow
 
-                def price = Math.round(resp.data.data.viewer.homes[0].currentSubscription.priceInfo.current.total * 100)
-                def priceMaxDay = Math.round(MaxValue(today) *100)
-                def priceMaxDayLabel = "Max price @ ${MaxValueTimestamp(today)}"
-                def priceMinDay = Math.round(MinValue(today) *100)
-                def priceMinDayLabel = "Min price @ ${MinValueTimestamp(today)}"
-                
-                def priceList = today
-                tomorrow.each{
-                	priceList << it
+                    def price = Math.round(resp.data.data.viewer.homes[0].currentSubscription.priceInfo.current.total * 100)
+                    def priceMaxDay = Math.round(MaxValue(today) *100)
+                    def priceMaxDayLabel = "Max price @ ${MaxValueTimestamp(today)}"
+                    def priceMinDay = Math.round(MinValue(today) *100)
+                    def priceMinDayLabel = "Min price @ ${MinValueTimestamp(today)}"
+
+                    def priceList = today
+                    tomorrow.each{
+                        priceList << it
+                    }
+                    def priceNextHours = PriceNextHours(priceList)
+                    def priceNextHour = Math.round(priceNextHours[0] *100)
+                    def priceNextHourLabel = "@ ${priceNextHours[2]}"
+                    def pricePlus2Hour = Math.round(priceNextHours[1] *100)
+                    def pricePlus2HourLabel = "@ ${priceNextHours[3]}"
+                    def currency = resp.data.data.viewer.homes[0].currentSubscription.priceInfo.current.currency
+
+                    currency = "${currency}: ${currencyToMinor(currency)}/kWh"
+
+                    state.currency = currency
+                    state.price = price
+                    state.priceNextHour = priceNextHour
+                    state.priceNextHourLabel = priceNextHourLabel
+                    state.pricePlus2Hour = pricePlus2Hour
+                    state.pricePlus2HourLabel = pricePlus2HourLabel
+                    state.priceMaxDay = priceMaxDay
+                    state.priceMaxDayLabel = priceMaxDayLabel
+                    state.priceMinDay = priceMinDay
+                    state.priceMinDayLabel = priceMinDayLabel
+
+                    sendEvent(name: "energy", value: price, unit: currency)
+                    sendEvent(name: "price", value: state.price, unit: currency)
+                    sendEvent(name: "priceNextHour", value: state.priceNextHour, unit: currency)
+                    sendEvent(name: "pricePlus2Hour", value: state.pricePlus2Hour, unit: currency)
+                    sendEvent(name: "priceMaxDay", value: state.priceMaxDay, unit: currency)
+                    sendEvent(name: "priceMinDay", value: state.priceMinDay, unit: currency)
+
+                    sendEvent(name: "priceNextHourLabel", value: state.priceNextHourLabel)
+                    sendEvent(name: "pricePlus2HourLabel", value: state.pricePlus2HourLabel)
+                    sendEvent(name: "priceMaxDayLabel", value: state.priceMaxDayLabel)
+                    sendEvent(name: "priceMinDayLabel", value: state.priceMinDayLabel)
+
+                    sendEvent(name: "currency", value: state.currency)
                 }
-				def priceNextHours = PriceNextHours(priceList)
-                def priceNextHour = Math.round(priceNextHours[0] *100)
-                def priceNextHourLabel = "@ ${priceNextHours[2]}"
-                def pricePlus2Hour = Math.round(priceNextHours[1] *100)
-                def pricePlus2HourLabel = "@ ${priceNextHours[3]}"
-                def currency = resp.data.data.viewer.homes[0].currentSubscription.priceInfo.current.currency
-                
-                currency = "${currency}: ${currencyToMinor(currency)}/kWh"
-                
-                state.currency = currency
-                state.price = price
-                state.priceNextHour = priceNextHour
-                state.priceNextHourLabel = priceNextHourLabel
-                state.pricePlus2Hour = pricePlus2Hour
-                state.pricePlus2HourLabel = pricePlus2HourLabel
-                state.priceMaxDay = priceMaxDay
-                state.priceMaxDayLabel = priceMaxDayLabel
-                state.priceMinDay = priceMinDay
-                state.priceMinDayLabel = priceMinDayLabel
-                
-                sendEvent(name: "energy", value: price, unit: currency)
-                sendEvent(name: "price", value: state.price, unit: currency)
-                sendEvent(name: "priceNextHour", value: state.priceNextHour, unit: currency)
-                sendEvent(name: "pricePlus2Hour", value: state.pricePlus2Hour, unit: currency)
-                sendEvent(name: "priceMaxDay", value: state.priceMaxDay, unit: currency)
-                sendEvent(name: "priceMinDay", value: state.priceMinDay, unit: currency)
-                
-                sendEvent(name: "priceNextHourLabel", value: state.priceNextHourLabel)
-                sendEvent(name: "pricePlus2HourLabel", value: state.pricePlus2HourLabel)
-                sendEvent(name: "priceMaxDayLabel", value: state.priceMaxDayLabel)
-                sendEvent(name: "priceMinDayLabel", value: state.priceMinDayLabel)
-                
-                sendEvent(name: "currency", value: state.currency)
             }
+        } catch (e) {
+            log.debug "something went wrong: $e"
         }
-    } catch (e) {
-        log.debug "something went wrong: $e"
     }
 }
 def parse(String description) {
