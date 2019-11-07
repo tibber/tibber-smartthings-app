@@ -8,10 +8,10 @@ Read an follow the steps below **very carefully**
 1. Create a new SmartApp in Samsung SmartThings developer portal (https://graph.api.smartthings.com/ide/apps) and make sure to enable OAuth.
 2. From this git repository, copy the contents of [src/smartapp.groovy](https://github.com/tibbercom/tibber-smartthings-app/blob/master/src/smartapp.groovy).
 3. Open the SmartApp in SmartThings developer portal and paste contents to code section.
-3. Publish the app for yourself
-4. Install the app
-5. In the SmartThings app on your phone; go to "Automation" -> "Tibber Thermostat" -> "Access Token". You'll find the API key at https://developer.tibber.com/settings/accesstoken
-6. Copy and keep the API token from step 5 and paste it into the Tibber app -> Power-ups -> Samsung SmartThings -> Connect
+4. Publish the app for yourself
+5. Install the app
+6. In the SmartThings app on your phone; go to "Automation" -> "Tibber Thermostat" -> "Access Token". You'll find the API key at https://developer.tibber.com/settings/accesstoken
+7. Copy and keep the API token from step 6 and paste it into the Tibber app -> Power-ups -> Samsung SmartThings -> Connect
 
 # Images
 <img src="Images/new-smartthings-app-1.png" border="10" />
