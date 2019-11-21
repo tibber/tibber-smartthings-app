@@ -6,7 +6,7 @@ Tibber has a "double integration" with Samsung SmartThings;
 # How to install
 Read an follow the steps below **very carefully**
 1. Create a new SmartApp in Samsung SmartThings developer portal (https://graph.api.smartthings.com/ide/apps).
-2. Copy the code from git repository, copy the contents of src/smartapp.groovy and paste it under ”from code” in your New SmartApp and click create.
+2. Copy the contents of src/smartapp.groovy from git repository and paste it under ”from code” in your New SmartApp and click create.
 3. Go to App Settings and enable OAuth, then update your SmartApp.
 4. Install the SmartApp in your SmartThings app.
 5. Press + sign in the Smartthings app and choose your SmartApp.
