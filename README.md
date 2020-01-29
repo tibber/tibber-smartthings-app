@@ -8,11 +8,12 @@ Read an follow the steps below **very carefully**
 1. Create a new SmartApp in Samsung SmartThings developer portal (https://graph.api.smartthings.com/ide/apps).
 2. Copy the contents of src/smartapp.groovy from git repository and paste it under ”from code” in your New SmartApp and click create.
 3. Go to App Settings and enable OAuth, then update your SmartApp.
-4. Install the SmartApp in your SmartThings app.
-5. Press + sign in the Smartthings app and choose your SmartApp. Set anything you like as Name and Device Network ID.
-6. First click Which devices? and choose which thermostats you would like to add to Tibber.
-7. Second, click Access Token and copy the token. Keep it copied for the next step.
-8. Go to the Tibber App -> Power Ups -> Samsung SmartThings -> Connect. Paste the token and connect.
+4. Publish your newly created smartapp "For Me"
+5. Install the SmartApp in your SmartThings app.
+6. Press + sign in the Smartthings app and choose your SmartApp. Set anything you like as Name and Device Network ID.
+7. First click Which devices? and choose which thermostats you would like to add to Tibber.
+8. Second, click Access Token and copy the token. Keep it copied for the next step.
+9. Go to the Tibber App -> Power Ups -> Samsung SmartThings -> Connect. Paste the token and connect.
 
 # Images
 <img src="Images/new-smartthings-app-1.png" border="10" />
