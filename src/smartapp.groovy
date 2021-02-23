@@ -19,9 +19,9 @@ definition(
     author: "Tibber developer",
     description: "Enable smart heating through Tibber. Make use of the Tibber and your SmartThings thermostats (you select which ones) are automatically adjusted based on your daily schedules, energy prices, your home\u2019s thermal capacity and weather information.",
     category: "Convenience",
-    iconUrl: "https://store.tibber.com/no/wp-content/uploads/sites/8/2017/12/tibber_app_logo.png",
-    iconX2Url: "https://store.tibber.com/no/wp-content/uploads/sites/8/2017/12/tibber_app_logo.png",
-    iconX3Url: "https://store.tibber.com/no/wp-content/uploads/sites/8/2017/12/tibber_app_logo.png",
+    iconUrl: "https://images.ctfassets.net/zq85bj8o2ot3/2uYwJJ7x6D4liUfA09Bgkb/8e411caa571e29b9b265298ad23206af/Tibber_Brandicon_-_Square.svg",
+    iconX2Url: "https://images.ctfassets.net/zq85bj8o2ot3/2uYwJJ7x6D4liUfA09Bgkb/8e411caa571e29b9b265298ad23206af/Tibber_Brandicon_-_Square.svg",
+    iconX3Url: "https://images.ctfassets.net/zq85bj8o2ot3/2uYwJJ7x6D4liUfA09Bgkb/8e411caa571e29b9b265298ad23206af/Tibber_Brandicon_-_Square.svg",
     oauth:true)
 
 mappings {
