@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: smartthings-app
+  annotations:
+    github.com/project-slug: tibber/tibber-smartthings-app
+spec:
+  type: app
+  lifecycle: production
+  consumesApis: [tibber-api-api]
