@@ -80,11 +80,12 @@ metadata {
 
     preferences {
         input (
-            type: "paragraph",
-            element: "paragraph",
-            title: "Tibber API key",
-            description: "You'll find the API key at https://developer.tibber.com/settings/accesstoken"
-        )
+		title: "Tibber API key",
+		description: "Tap to find the API key",
+		url: "https://developer.tibber.com/settings/accesstoken",
+		type: "href",
+		element: "href"
+	)
         input (
             name: "tibber_apikey",
             type: "password",
